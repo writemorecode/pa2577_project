@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Image Sharing Service</title>
+	</head>
+	<body>
+		<h1>{{ .title }}</h1>
+		<form action="/upload" method="post" enctype="multipart/form-data">
+			<label for="image">Select image to upload:</label>
+			<input type="file" id="image" name="image" accept="image/*">
+			<br>
+			<input type="submit" value="Upload Image">
+		</form>	
+	</body>
+</html>
+
