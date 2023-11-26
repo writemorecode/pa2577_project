@@ -1,0 +1,12 @@
+services:
+  web:
+    image: web
+    build: .
+    volumes:
+      - image_volume:/images
+    ports:
+      - "8080:8080"
+
+volumes:
+  image_volume:
+  
