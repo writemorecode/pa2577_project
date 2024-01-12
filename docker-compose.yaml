@@ -1,12 +1,61 @@
 services:
   web:
-    image: web
-    build: .
-    volumes:
-      - image_volume:/images
+    image: project/web
+    build: ./web
     ports:
-      - "8080:8080"
+      - 3000:8080
+    depends_on:
+      - auth
+      - image_db
+
+  auth:
+    image: project/auth
+    build: ./auth
+    ports:
+      - 4000:8080
+    depends_on:
+      user_db:
+        condition: service_healthy
+
+  images:
+    image: project/images
+    build: ./images
+    ports:
+      - 5000:8080
+    depends_on:
+      image_db:
+        condition: service_healthy
+
+  user_db:
+    image: mysql:8
+    env_file:
+      - .env_user_db
+    command: --init-file /users.sql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 --silent
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - user_db_volume:/var/lib/mysql
+      - ./users.sql:/users.sql
+
+  image_db:
+    image: mysql:8
+    env_file:
+      - .env_image_db
+    command: --init-file /images.sql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 --silent
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - image_db_volume:/var/lib/mysql
+      - ./images.sql:/images.sql
 
 volumes:
-  image_volume:
-  
+  user_db_volume:
+    driver: local
+  image_db_volume:
+    driver: local

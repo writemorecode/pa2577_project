@@ -1,0 +1,8 @@
+{{define "title"}}Register{{end}}
+{{define "body"}}
+	<form action="/auth/register" method="post" id="registerForm">
+		<input type="text" id="username" name="username" placeholder="Username"><br>
+		<input type="password" id="password" name="password" placeholder="Password"><br>
+		<input type="submit" id="loginSubmit" value="Register">
+	</form>	
+{{end}}

@@ -1,0 +1,7 @@
+{{define "title"}}Home{{end}}
+{{define "body"}}
+{{ range .images }}
+<a href="/img/{{.ID}}"><img class="preview_image" src="/images/{{.Filename}}"></img></a>
+{{end}}
+{{end}}
+
